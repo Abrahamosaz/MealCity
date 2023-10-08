@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../../assets/404_page.png";
+import Logo from "../../assets/404_page.png";
 import "./NoMatch.css";
 import { useNavigate } from "react-router-dom";
 
