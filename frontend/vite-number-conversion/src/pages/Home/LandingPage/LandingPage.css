@@ -1,0 +1,74 @@
+.landingpage__container {
+  padding: 10%;
+  background-image: url("../../../assets/my_image.webp");
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
+  height: 400px;
+}
+
+.landingpage__content {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.landing__content__first {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 55%;
+}
+
+.landing__phase {
+  font-size: 2.5rem;
+  line-height: 1.5;
+  width: 60%;
+  color: white;
+}
+
+.landing__phase__text {
+  font-size: 1rem;
+  color: white;
+}
+
+.landing__btn {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.landing__btn > button {
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  outline: none;
+}
+
+.landing__btn .inactive {
+  border: 2px solid var(--primary-nav-color);
+  color: var(--primary-nav-color);
+  background-color: white;
+}
+
+.landing__btn .active {
+  outline: none;
+  background-color: var(--primary-nav-color);
+  border: none;
+  color: white;
+}
+
+.lnading__content__second {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .landing__content__second .img__section {
+  border: 3px solid black;
+  width: 400px;
+  height: 350px;
+  background-image: url("../../../assets/food.webp");
+  background-position: center;
+  background-size: contain;
+  border-radius: 50%;
+} */

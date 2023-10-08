@@ -1,0 +1,38 @@
+.nomatch__container {
+  padding: 10rem 4rem;
+}
+
+.nomatch__content {
+  display: flex;
+  gap: 5.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.nomatch__image__section {
+  width: 50%;
+}
+
+.nomatch__image__section > img {
+  width: 100%;
+}
+
+.nomatch__text__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.nomatch__text__section > button {
+  width: 40%;
+  height: 1.5rem;
+  box-sizing: content-box;
+  padding: 5px 15px;
+  border-radius: 7px;
+  outline: none;
+  border: 2px solid var(--primary-color);
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+}

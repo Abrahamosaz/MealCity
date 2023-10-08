@@ -1,0 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-nav-color: #1f2428;
+  --primary-color: #26a75d;
+  --footer-color: #8d8f8f;
+}

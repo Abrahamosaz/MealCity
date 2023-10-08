@@ -1,0 +1,96 @@
+.footer__container {
+  padding: 5rem;
+  background-color: var(--primary-nav-color);
+  height: 350px;
+}
+
+.footer__container p {
+  color: var(--footer-color);
+}
+
+.footer__container h3,
+.footer__container h1 {
+  color: white;
+}
+
+.footer__container h3 {
+  font-size: 17px;
+}
+
+.footer__container p {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.footer__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upper__section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.upper__section > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.upper__section > div:nth-child(2) > button {
+  box-sizing: content-box;
+  padding: 6px 30px;
+  border-radius: 5px;
+  border: 1px solid var(--footer-color);
+  outline: none;
+  background-color: var(--primary-nav-color);
+  color: white;
+  cursor: pointer;
+}
+
+.upper__section > div:nth-child(1) {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.upper__section > div:nth-child(1) > svg {
+  color: #c9947a;
+}
+
+.lower__section svg {
+  color: #929292;
+  cursor: pointer;
+}
+
+.lower__section {
+  display: flex;
+  justify-content: space-between;
+  padding: 5% 12%;
+}
+
+.lower__section > div:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  gap: 5rem;
+}
+
+.footer__sec {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer__icons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer__tag {
+  display: flex;
+  justify-content: space-between;
+  padding: 0% 12%;
+}
