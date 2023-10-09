@@ -29,4 +29,4 @@ class Mealcity {
 }
 
 const mealcity = new Mealcity();
-export default mealcity;
+module.exports = mealcity;
