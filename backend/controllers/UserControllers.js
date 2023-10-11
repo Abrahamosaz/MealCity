@@ -14,21 +14,19 @@ class UserController {
         if (!password) {
             return res.status(400).send({error: 'Missing password'});
         }
+
+        const findEmail = await mealcity.db.collection('users').findOne({ email });
         
+        if (findEmail) {
+           return res.status(400).send({ error: 'Already exists' });
+        }
         const hashed_password = sha1(password);
-        // const User = {
-        //     email,
-        //     password: hashed_password,
-        // }
+        
         const createUser = await mealcity.db.collection('users').insertOne({ email, password: hashed_password });
         if (createUser) {
           return res.status(201).send({ id: createUser.insertedId, email: email });
         }
-        const findEmail = await mealcity.db.collection('users').findOne({ email });
         
-        if (findEmail) {
-          return res.status(400).send({error: 'Already exist'});
-        }
     }
 }
 
