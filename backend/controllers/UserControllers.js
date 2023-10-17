@@ -30,5 +30,4 @@ class UserController {
     }
 }
 
-const usercontroller = new UserController();
-export default usercontroller;
+module.exports = UserController;
