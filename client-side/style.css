@@ -1,0 +1,55 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
+
+#logo img {
+    width: 150px;
+    height: auto;
+}
+
+#columns img {
+    width: 200px;
+    height: auto;
+}
+
+.banner-container {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+}
+
+.banner-container img, .card img {
+    width: 100%; 
+    height: auto;
+}
+
+
+@media (max-width: 767px) {
+    .navbar-collapse {
+        background-color: #333;
+    }
+
+    .navbar-nav {
+        text-align: center; 
+        margin-top: 10px;
+    }
+
+    .navbar-toggler {
+        color: #fff; 
+    }
+
+    .banner-container img {
+        height: auto; 
+    }
+
+    .columns {
+        margin-bottom: 20px;
+    }
+}
