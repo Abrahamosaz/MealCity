@@ -28,6 +28,14 @@ class AuthController {
             return res.status(500).send({'error': 'Oops.... Internal Server Error'});
         }
     }
+
+    async disconnect(req, res) {
+        const authhead = req.header('X-token');
+        if (!authhead) {
+            return res.status(401).send({'error': 'Unauthorized'});
+        }
+        const key = authhead.split(' ')
+    }
 }
 
 export default new AuthController();
