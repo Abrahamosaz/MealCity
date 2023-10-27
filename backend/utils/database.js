@@ -26,6 +26,11 @@ class Mealcity {
         const countusr = await this.db.collection('users').countDocuments();
         return countusr;
     }
+
+    async getWaitlist() {
+        const countList = await this.db.collection('Lists').countDocuments();
+        return countList;
+    }
 }
 
 const mealcity = new Mealcity();

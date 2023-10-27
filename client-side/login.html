@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <!-- Bootstrap CSS Link -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <link rel="icon" href="./images/M1.png" type="image/x-icon">
+  <style>
+    .header-container {
+      border-bottom: 2px solid #ccc;
+      padding: 10px 0;
+    }
+
+    .login-container {
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      margin: 50px;
+      padding: 40px;
+    }
+  </style>
+</head>
+<body>
+    <div class="header-container">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <a class="navbar-brand" href="#" id="logo"><img src="./images/M.png" class="img-fluid" alt="firstimg"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./landing.html" id="home"><button class="btn btn-primary">HOME</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="about"><button class="btn btn-primary">ABOUT</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="services"><button class="btn btn-primary">SERVICES</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="contact"><button class="btn btn-primary">CART</button></a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav>
+</header>
+</div>
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-md-6">
+        <div class="login-container">
+          <h2 class="text-center mb-4">Mealcity</h2>
+          <form>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies (optional) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <footer>
+    <div class="container-fluid row justify-content-center header-container1">
+      <h2>About Us</h2>
+    </div>
+  </footer>
+</body>
+</html>

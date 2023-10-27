@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import sha1 from 'sha1';
 import mealcity from '../utils/database';
-
+import redisClient from '../utils/redis-db';
 
 class AuthController {
     async connect(req, res) {
@@ -19,6 +19,8 @@ class AuthController {
             const usr = await mealcity.db.collection('users').findOne({ email: email, password: hashed_password });
             if (usr) {
                 const token = jwt.sign({email, userId: usr._id.toString()}, '4be41d164a4fdeac0fb4be594853f792e16fdc190101f5c89905ae0ce4aee5d9', { expiresIn: '1h' });
+                const key = `auth_${token}`;
+                await redisClient.set(key, usr._id.toString(), 86400);
                 return res.status(200).send({token});
             } else {
                 return res.status(400).send({'error': 'Unauthorized'});
@@ -34,8 +36,14 @@ class AuthController {
         if (!authhead) {
             return res.status(401).send({'error': 'Unauthorized'});
         }
-        const key = authhead.split(' ')
-    }
+        const key = `auth_${authhead}`;
+        const userId = await redisClient.get(key);
+        if (userId) {
+        await redisClient.del(key);
+        return res.status(204).send({});
+        }
+        return res.status(401).send({error: 'Unauthorized'});
+        }
 }
 
 export default new AuthController();

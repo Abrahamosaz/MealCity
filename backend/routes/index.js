@@ -12,4 +12,10 @@ router.post('/users', (req, res) => {
 router.get('/connect', (req, res) => {
     Authcontroller.connect(req, res);
 });
+router.get('/disconnect', (req, res) => {
+    Authcontroller.disconnect(req, res);
+});
+router.get('/users/me', (req, res) => {
+    UserController.getMe(req, res);
+});
 }

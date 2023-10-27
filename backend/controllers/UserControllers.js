@@ -1,6 +1,8 @@
 import sha1  from 'sha1';
 import { uuidV4} from 'uuid';
 import mealcity from '../utils/database';
+import redisClient from '../utils/redis-db';
+import { ObjectId } from 'mongodb';
 
 class UserController {
     async createNew(req, res) {
@@ -27,6 +29,24 @@ class UserController {
           return res.status(201).send({ id: createUser.insertedId, email: email });
         }
         
+    }
+    async getMe(req, res) {
+        const token = req.header('X-Token');
+        if (!token) {
+            return res.status(400).send({'error': 'Unauthorized'});
+        }
+
+        const myKey = `auth_${token}`;
+
+        const userId = await redisClient.get(myKey);
+        if (userId) {
+          const user_id = await mealcity.db.collection('users').findOne({ _id: new ObjectId(userId)});
+          if (!user_id) {
+            return res.status(401).send({'error': 'Unauthorized'});
+          }
+          return res.status(201).send({id: userId, email: user_id.email});
+        
+        }
     }
 }
 
