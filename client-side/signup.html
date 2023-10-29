@@ -3,21 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>SignUp</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style.css"/>
   <link rel="icon" href="./images/M1.png" type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+  <script type="module" src="caller.js"></script>
   <style>
     .header-container {
       border-bottom: 2px solid #ccc;
       padding: 10px 0;
     }
 
-    .login-container {
+    .signup-container {
       border: 2px solid #ccc;
       border-radius: 15px;
       margin: 50px;
@@ -48,7 +52,7 @@
                         <a class="nav-link" href="#" id="services"><button class="btn btn-primary">SERVICES</button></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="signup.html" id="signup"><button class="btn btn-primary">SIGN UP</button></a>
+                        <a class="nav-link" href="login.html" id="signup"><button class="btn btn-primary">LOGIN</button></a>
                     </li>
                     
                 </ul>
@@ -60,9 +64,13 @@
   <div class="container">
     <div class="row justify-content-end">
       <div class="col-md-6">
-        <div class="login-container login-color">
+        <div class="signup-container signup-color" >
           <h4 class="text-center mb-4" id="Authname">Mealcity</h4>
-          <form>
+          <form id="signup">
+            <div class="form-group">
+                <label for="names">Full name</label>
+                <input type="text" class="form-control" id="names" placeholder="Your name" required>
+              </div>
             <div class="form-group">
               <label for="email">Email</label>
               <input type="text" class="form-control" id="email" placeholder="Enter your email" required>
@@ -71,11 +79,11 @@
               <label for="password">Password</label>
               <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
             </div>
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="rememberMe">
-              <label class="form-check-label" for="rememberMe">Remember me</label>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block login-btn">Login</button>
+            <div class="form-group">
+                <label for="confirmpassword">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmpassword" placeholder="Confirm password" required>
+              </div>
+            <button type="submit" id="signup-btn" class="btn btn-primary btn-block signup-btn">Sign Up</button>
           </form>
         </div>
       </div>

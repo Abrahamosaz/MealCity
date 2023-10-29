@@ -8,6 +8,11 @@ class UserController {
     async createNew(req, res) {
         const email = req.body.email;
         const password = req.body.password;
+        const names = req.body.names;
+
+        if (!names) {
+          return res.status(400).send({error: 'Missing name'});
+        }
 
         if (!email) {
             return res.status(400).send({error: 'Missing email'});
@@ -24,7 +29,7 @@ class UserController {
         }
         const hashed_password = sha1(password);
         
-        const createUser = await mealcity.db.collection('users').insertOne({ email, password: hashed_password });
+        const createUser = await mealcity.db.collection('users').insertOne({ names, email, password: hashed_password });
         if (createUser) {
           return res.status(201).send({ id: createUser.insertedId, email: email });
         }
