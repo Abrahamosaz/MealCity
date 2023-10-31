@@ -11,6 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script type="module" src="caller.js"></script>
   <style>
     .header-container {
       border-bottom: 2px solid #ccc;
@@ -62,7 +64,7 @@
       <div class="col-md-6">
         <div class="login-container login-color">
           <h4 class="text-center mb-4" id="Authname">Mealcity</h4>
-          <form>
+          <form id="login">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="text" class="form-control" id="email" placeholder="Enter your email" required>
@@ -75,7 +77,7 @@
               <input type="checkbox" class="form-check-input" id="rememberMe">
               <label class="form-check-label" for="rememberMe">Remember me</label>
             </div>
-            <button type="submit" class="btn btn-primary btn-block login-btn">Login</button>
+            <button type="submit" class="btn btn-primary btn-block login-btn" id="login-btn">Login</button>
           </form>
         </div>
       </div>

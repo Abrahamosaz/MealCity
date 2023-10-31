@@ -9,6 +9,9 @@ router.post('/users', (req, res) => {
     UserController.createNew(req, res);
 });
 
+router.post('/login', (req, res) => {
+    UserController.login(req, res);
+});
 router.get('/connect', (req, res) => {
     Authcontroller.connect(req, res);
 });

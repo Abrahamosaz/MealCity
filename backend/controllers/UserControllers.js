@@ -1,8 +1,10 @@
-import sha1  from 'sha1';
 import { uuidV4} from 'uuid';
 import mealcity from '../utils/database';
 import redisClient from '../utils/redis-db';
 import { ObjectId } from 'mongodb';
+import jwt from 'jsonwebtoken';
+
+const bcrypt = require('bcrypt');
 
 class UserController {
     async createNew(req, res) {
@@ -27,14 +29,40 @@ class UserController {
         if (findEmail) {
            return res.status(400).send({ error: 'Already exists' });
         }
-        const hashed_password = sha1(password);
-        
+        const hashed_password = await bcrypt.hash(password, 10);
         const createUser = await mealcity.db.collection('users').insertOne({ names, email, password: hashed_password });
         if (createUser) {
           return res.status(201).send({ id: createUser.insertedId, email: email });
         }
         
     }
+
+    async login(req, res) {
+      const { email, password } = req.body;
+      try {
+        if (!email || !password) {
+          return res.status(400).send({error: 'User credientials not provided'});
+        }
+
+        const usr_mail = await mealcity.db.collection('users').findOne({ email });
+        if (!usr_mail) {
+          return res.status(401).send({error: 'User does not exist'});
+        }
+        const chkpassword = await bcrypt.compare(password, usr_mail.password);
+        if (!chkpassword) {
+          return res.status(400).send({error: 'Invalid password'});
+        }
+        const token = jwt.sign({email, userId: usr_mail._id.toString()}, '4be41d164a4fdeac0fb4be594853f792e16fdc190101f5c89905ae0ce4aee5d9', { expiresIn: '1h' });
+        const key = `auth_${token}`;
+        await redisClient.set(key, usr_mail._id.toString(), 86400);
+        return res.status(200).send({token});
+      } catch (err) {
+        console.log(`Error ocurred ${err}`);
+        res.status(401).send({error: 'Server Error'});
+      }
+
+    }
+    
     async getMe(req, res) {
         const token = req.header('X-Token');
         if (!token) {
