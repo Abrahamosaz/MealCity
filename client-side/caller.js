@@ -22,12 +22,21 @@ $(document).ready(function() {
         })
       });
 
-      $('#log-out').click(function(event) {
+      $('#logout').click(function(event) {
         console.log('log out button is clicked');
         event.preventDefault();
-        axios.get('http://localhost:5000/disconnect')
+        axios.get('http://localhost:5000/disconnect', {
+           headers: {
+            'Content-Type': 'application/json',
+            'X-Token': localStorage.getItem('token')
+           } 
+        })
         .then(function(response) {
+            if (response.status == 204) {
+            console.log('Logged out successfully');
+            localStorage.removeItem('token');
             window.location.href = 'login.html';
+            }
         })
       })
 
@@ -57,8 +66,6 @@ $(document).ready(function() {
               .catch(function(error) {
                   showAlert('Error registering user: ' + error.message, 'alert-danger');
               });
-
-              
           }
       });
   
