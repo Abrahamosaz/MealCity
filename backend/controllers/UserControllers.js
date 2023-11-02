@@ -63,6 +63,20 @@ class UserController {
 
     }
     
+    async disconnect(req, res) {
+      const authhead = req.header('X-token');
+      if (!authhead) {
+          return res.status(401).send({'error': 'Unauthorized'});
+      }
+      const key = `auth_${authhead}`;
+      const userId = await redisClient.get(key);
+      if (userId) {
+      await redisClient.del(key);
+      return res.status(204).send({});
+      }
+      return res.status(401).send({error: 'Unauthorized'});
+      }
+    
     async getMe(req, res) {
         const token = req.header('X-Token');
         if (!token) {
