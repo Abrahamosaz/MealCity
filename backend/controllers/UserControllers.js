@@ -6,7 +6,10 @@ import jwt from 'jsonwebtoken';
 
 const bcrypt = require('bcrypt');
 
+//User Controller class for registering, logging in a user, getting a user and logging out a user
 class UserController {
+
+    // A function which checks if a user is registered, if not registers the user and add the user to the database
     async createNew(req, res) {
         const email = req.body.email;
         const password = req.body.password;
@@ -38,6 +41,7 @@ class UserController {
     }
 
     async login(req, res) {
+      // This is a function which checks, validates a users details and gives the user access to the site
       const { email, password } = req.body;
       try {
         if (!email || !password) {
@@ -64,6 +68,7 @@ class UserController {
     }
     
     async disconnect(req, res) {
+      // This gets the user key stored in the redis database and deletes it, thereby logging out the user
       const authhead = req.header('X-token');
       if (!authhead) {
           return res.status(401).send({'error': 'Unauthorized'});
@@ -78,6 +83,7 @@ class UserController {
       }
     
     async getMe(req, res) {
+      //This function gets the current user authenticated
         const token = req.header('X-Token');
         if (!token) {
             return res.status(400).send({'error': 'Unauthorized'});
