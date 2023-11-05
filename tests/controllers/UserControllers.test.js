@@ -78,4 +78,45 @@ describe('UserController', () => {
             })).to.be.true;
         });
     });
+
+    describe('disconnect', () => {
+        let req, res, redisClient;
+
+        beforeEach(() => {
+            req = {
+                header: sinon.stub()
+            };
+
+            res = {
+                status: sinon.stub().returnsThis(),
+                send: sinon.stub()
+            };
+
+            redisClient = {
+                get: sinon.stub(),
+                del: sinon.stub()
+            };
+        })
+        it('should log out a user', async () => {
+            req.header.withArgs('X-token').returns('token');
+            redisClient.get.withArgs('auth_token').resolves('userId');
+
+            await disconnect(req, res, redisClient);
+
+            expect(redisClient.del).to.be.calledWith('auth_token');
+            expect(res.status).to.be.calledOnceWith(204);
+            expect(res.send).to.be.calledOnceWith({});
+        });
+
+        it('should return 401 if user is not found', async () => {
+            req.header.withArgs('X-token').returns('token');
+            redisClient.get.withArgs('auth_token').resolves(null);
+
+            await disconnect(req, res, redisClient);
+
+            expect(redisClient.del).to.not.be.called;
+            expect(res.status).to.be.calledOnceWith(401);
+            expect(res.send).to.be.calledOnceWith({ 'error': 'Unauthorized' });
+        });
+    });
 });
