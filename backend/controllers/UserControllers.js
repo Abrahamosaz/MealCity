@@ -1,8 +1,9 @@
-import { uuidV4} from 'uuid';
-import mealcity from '../utils/database';
-import redisClient from '../utils/redis-db';
-import { ObjectId } from 'mongodb';
-import jwt from 'jsonwebtoken';
+const { v4: uuidV4 } = require('uuid');
+const Mealcity = require('../utils/database');
+const RedisClient = require('../utils/redis-db');
+const { ObjectId } = require('mongodb');
+const jwt = require('jsonwebtoken');
+
 
 const bcrypt = require('bcrypt');
 
@@ -27,13 +28,13 @@ class UserController {
             return res.status(400).send({error: 'Missing password'});
         }
 
-        const findEmail = await mealcity.db.collection('users').findOne({ email });
+        const findEmail = await Mealcity.db.collection('users').findOne({ email });
         
         if (findEmail) {
            return res.status(400).send({ error: 'Already exists' });
         }
         const hashed_password = await bcrypt.hash(password, 10);
-        const createUser = await mealcity.db.collection('users').insertOne({ names, email, password: hashed_password });
+        const createUser = await Mealcity.db.collection('users').insertOne({ names, email, password: hashed_password });
         if (createUser) {
           return res.status(201).send({ id: createUser.insertedId, email: email });
         }
@@ -48,7 +49,7 @@ class UserController {
           return res.status(400).send({error: 'User credientials not provided'});
         }
 
-        const usr_mail = await mealcity.db.collection('users').findOne({ email });
+        const usr_mail = await Mealcity.db.collection('users').findOne({ email });
         if (!usr_mail) {
           return res.status(401).send({error: 'User does not exist'});
         }
@@ -58,7 +59,7 @@ class UserController {
         }
         const token = jwt.sign({email, userId: usr_mail._id.toString()}, '4be41d164a4fdeac0fb4be594853f792e16fdc190101f5c89905ae0ce4aee5d9', { expiresIn: '1h' });
         const key = `auth_${token}`;
-        await redisClient.set(key, usr_mail._id.toString(), 86400);
+        await RedisClient.set(key, usr_mail._id.toString(), 86400);
         return res.status(200).send({token});
       } catch (err) {
         console.log(`Error ocurred ${err}`);
@@ -74,12 +75,13 @@ class UserController {
           return res.status(401).send({'error': 'Unauthorized'});
       }
       const key = `auth_${authhead}`;
-      const userId = await redisClient.get(key);
+      const userId = await RedisClient.get(key);
       if (userId) {
-      await redisClient.del(key);
+      await RedisClient.del(key);
       return res.status(204).send({});
-      }
-      return res.status(401).send({error: 'Unauthorized'});
+      } else {
+          return res.status(401).send({error: 'Unauthorized'});
+        }
       }
     
     async getMe(req, res) {
@@ -91,9 +93,12 @@ class UserController {
 
         const myKey = `auth_${token}`;
 
-        const userId = await redisClient.get(myKey);
+        const userId = await RedisClient.get(myKey);
+        if (!userId || !ObjectId.isValid(userId)) {
+          return res.status(401).send({'error': 'Unauthorized'});
+        }
         if (userId) {
-          const user_id = await mealcity.db.collection('users').findOne({ _id: new ObjectId(userId)});
+          const user_id = await Mealcity.db.collection('users').findOne({ _id: new ObjectId(userId)});
           if (!user_id) {
             return res.status(401).send({'error': 'Unauthorized'});
           }
@@ -103,4 +108,4 @@ class UserController {
     }
 }
 
-export default new UserController();
+module.exports = new UserController();
