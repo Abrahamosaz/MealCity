@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+const MongoClient = require('mongodb').MongoClient;
 
 const host = process.env.DB_HOST || 'localhost';
 const database = process.env.DB_DATABASE || 'mealcity';
@@ -33,5 +33,4 @@ class Mealcity {
     }
 }
 
-const mealcity = new Mealcity();
-module.exports = mealcity;
+module.exports = new Mealcity();
