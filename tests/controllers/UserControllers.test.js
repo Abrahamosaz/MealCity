@@ -1,40 +1,81 @@
-import mealcity from '../../backend/utils/database';
 import UserController from '../../backend/controllers/UserControllers';
-import sinon from 'sinon';
-import { expect } from 'chai';
+
+import mealcity from '../../backend/utils/database';
+import redisClient from '../../backend/utils/redis-db';
+import jwt from 'jsonwebtoken';
+const { expect } = require('chai');
+const sinon = require('sinon');
+const bcrypt = require('bcrypt');
 
 describe('UserController', () => {
-    let sandbox;
     beforeEach(() => {
-        sandbox = sinon.createSandbox();
+        sinon.stub(mealcity.db.collection('users'), 'findOne');
+        sinon.stub(mealcity.db.collection('users'), 'insertOne');
+        sinon.stub(redisClient, 'get');
+        sinon.stub(redisClient, 'set');
+        sinon.stub(redisClient, 'del');
+        sinon.stub(jwt, 'sign');
+        sinon.stub(bcrypt, 'hash');
+        sinon.stub(bcrypt, 'compare');
     });
 
     afterEach(() => {
-        sandbox.restore();
+        sinon.restore();
     });
 
     describe('createNew', () => {
         it('should create a new user', async () => {
             const req = {
                 body: {
-                    email: 'testing@gmail.com',
-                    password: 'pass123',
-                    names: 'myname'
+                    email: 'testing@yahoo.com',
+                    password: 'drinko',
+                    names: 'test User'
                 }
             };
 
             const res = {
-                status: sandbox.stub().returnsThis(),
-                send: sandbox.stub()
+                status: sinon.stub(),
+                send: sinon.stub()
             };
 
-            sandbox.stub(mealcity.db.collection('users'), 'findOne').resolves(null);
-            sandbox.stub(mealcity.db.collection('users'), 'insertOne').resolves({ insertedId: '123' });
+            mealcity.db.collection('users').findOne.returns(null);
+            bcrypt.hash.resolves('hashed_password');
+            mealcity.db.collection('users').insertOne.resolves({ insertedId: '123' });
 
             await UserController.createNew(req, res);
 
             expect(res.status.calledWith(201)).to.be.true;
-            expect(res.send.calledWith({ id: '123', email: 'test@example.com' })).to.be.true;
-        })
-    })
-})
+            expect(res.send.calledWith({ id: '123', email: 'testing@yahoo.com' })).to.be.true;
+        });
+    });
+
+    describe('login', () => {
+        it('should login a user', async () => {
+            const req = {
+                body: {
+                    email: 'testing@yahoo.com',
+                    password: 'drinko'
+                }
+            }
+            const res = {
+                status: sinon.stub(), send: sinon.stub() 
+            };
+
+            const test_user = {
+                _id: '123',
+                email: 'testing@yahoo.com',
+                password: 'drinko'
+            };
+            mealcity.db.collection('users').findOne.returns(test_user);
+            bcrypt.compare.resolves(true);
+            jwt.sign.returns('token');
+
+            await UserController.login(req, res);
+
+            expect(res.status.calledWith(200)).to.be.true;
+            expect(res.send.calledWith({
+                token: 'token'
+            })).to.be.true;
+        });
+    });
+});
